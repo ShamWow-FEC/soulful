@@ -1,5 +1,6 @@
 const path = require('path');
 const Dotenv = require('dotenv-webpack');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 const SRC_DIR = path.join(__dirname, '/client/src');
 const DIST_DIR = path.join(__dirname, '/client/dist');
@@ -24,4 +25,7 @@ module.exports = {
   plugins: [
     new Dotenv(),
   ],
+  optimization: {
+    minimizer: [new UglifyJsPlugin()],
+  },
 };
