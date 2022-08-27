@@ -28,16 +28,16 @@ function ExpandedImage({
     });
   };
 
-  const moveBackgroundImg = (e) => {
-    if (zoom) {
-      const offset = { x: e.nativeEvent.offsetX, y: e.nativeEvent.offsetY };
-      setOffsetPercentage({
-        x: (offset.x / containerSize.width) * 100,
-        y: (offset.y / containerSize.height) * 100,
-      });
-      container.current.style.backgroundPosition = `-${offsetPercentage.x}% -${offsetPercentage.y}%`;
-    }
-  };
+  // const moveBackgroundImg = (e) => {
+  //   if (zoom) {
+  //     const offset = { x: e.nativeEvent.offsetX, y: e.nativeEvent.offsetY };
+  //     setOffsetPercentage({
+  //       x: (offset.x / containerSize.width) * 100,
+  //       y: (offset.y / containerSize.height) * 100,
+  //     });
+  //     container.current.style.backgroundPosition = `-${offsetPercentage.x}% -${offsetPercentage.y}%`;
+  //   }
+  // };
 
   const exitExpandedView = () => { setExpandedView(false); };
 
@@ -50,24 +50,38 @@ function ExpandedImage({
               <Wrapper
                 ref={container}
                 key={index}
-                onClick={!zoom ? getSizingRatio : () => { setZoom(false); }}
+                // onClick={!zoom ? getSizingRatio : () => { setZoom(false); }}
                 style={{
-                  backgroundImage: !zoom ? 'none' : `url(${images[currIndex].url})`,
-                  backgroundSize: `${containerSize.height * 2.5}px`,
-                  backgroundPosition: `${offsetPercentage.x}% ${offsetPercentage.y}%`,
+                  // background: 'red',
+                  // backgroundImage: !zoom ? 'none' : `url(${images[currIndex].url})`,
+                  // backgroundSize: `${containerSize.height * 2.5}px`,
+                  // backgroundPosition: `${offsetPercentage.x}% ${offsetPercentage.y}%`,
                   cursor: zoom ? 'zoom-out' : 'crosshair',
                 }}
-                onMouseMove={moveBackgroundImg}
+                // onMouseMove={moveBackgroundImg}
               >
+                {/* in zoomed-in mode */}
+                {zoom && (
+                  <ZoomedImage
+                    src={
+                      images[currIndex].url
+                        ? images[currIndex].url
+                        : 'https://images.unsplash.com/photo-1594322436404-5a0526db4d13?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2329&q=80'
+                    }
+                    alt="A representation of this product"
+                  />
+                )}
+
+                {/* in zoomed-out mode */}
                 {!zoom && index > 0 && (
                   <IoIosArrowDropleft
                     className="icon-expanded left-arrow-expanded"
                     onClick={() => { setCurrIndex(currIndex - 1); }}
                   />
                 )}
+                {console.log(images[currIndex].url)}
                 {!zoom && (
                   <Image
-                    classname="main-img"
                     src={
                       images[currIndex].url
                         ? images[currIndex].url
@@ -134,11 +148,15 @@ export default ExpandedImage;
 const Wrapper = styled.div`
   position: relative;
   isolation: isolate;
+  display: flex;
   margin: auto;
   width: 60vw;
   height: 60vw;
-  background-repeat: no-repeat;
-  // overflow: hidden;
+  // background-repeat: no-repeat;
+  background: red;
+  // overflow: scroll;
+  justify-content: center;
+  align-items: center;
 
   & .icon-expanded {
     position: absolute;
@@ -194,9 +212,21 @@ const NavSymbols = styled.div`
 
 const Image = styled.img`
   position: absolute;
-  width: 100%;
-  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
   object-fit: contain;
   user-select: none;
   cursor: crosshair;
+  // justify-self: center;
+  // align-self: center;
+`;
+
+const ZoomedImage = styled.img`
+  position: absolute;
+  // width: 100%;
+  // height: 100%;
+  object-fit: none;
+  // user-select: none;
+  // cursor: crosshair;
+  transform: scale(2.5);
 `;
