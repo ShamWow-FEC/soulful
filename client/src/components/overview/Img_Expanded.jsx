@@ -111,18 +111,6 @@ function ExpandedImage({
                   }
                 }}
               />
-              // <NavCircles
-              //   src="https://cdn-icons-png.flaticon.com/512/481/481078.png"
-              //   alt="circle"
-              //   data-testid="nav-symbols-circles"
-              //   key={index}
-              //   style={circleStyle}
-              //   onClick={() => {
-              //     if (index !== currImgIndex) {
-              //       setCurrImgIndex(index);
-              //     }
-              //   }}
-              // />
             );
           })}
         </NavSymbols>
@@ -204,9 +192,6 @@ const NavSymbols = styled.div`
     cursor: pointer;
   };
 `;
-
-// const NavCircles = styled.img`
-// `;
 
 const Image = styled.img`
   position: absolute;
