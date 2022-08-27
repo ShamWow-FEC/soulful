@@ -14,9 +14,11 @@ function ExpandedImage({
   const [containerSize, setContainerSize] = useState({ width: 0, height: 0 });
   const [offsetPercentage, setOffsetPercentage] = useState({ x: 0, y: 0 });
   const container = useRef(null);
+  const [offset, setOffset] = useState({ x: 0, y: 0 });
 
   const getSizingRatio = (e) => {
-    const offset = { x: e.nativeEvent.offsetX, y: e.nativeEvent.offsetY };
+    // const offset = { x: e.nativeEvent.offsetX, y: e.nativeEvent.offsetY };
+    const { width, height } = {}
     setContainerSize({
       width: container.current.clientWidth,
       height: container.current.clientHeight,
@@ -39,6 +41,25 @@ function ExpandedImage({
   //   }
   // };
 
+  const handleZoomClick = (e) => {
+    setZoom(true);
+    const imgEle = e.target;
+    const { width, height, top, left } = imgEle.getBoundingClientRect();
+    // console.log(width, height, left, top);
+    setContainerSize({
+      width: width * 2.5,
+      height: height * 2.5,
+    });
+    const offsetX = e.clientX - left;
+    const offsetY = e.clientY - top;
+    setOffset({ x: offsetX, y: offsetY });
+    // console.log(e.clientX, e.clientY);
+    setOffsetPercentage({
+      x: (offsetX / width) * 100,
+      y: (offsetY / height) * 100,
+    });
+  };
+
   const exitExpandedView = () => { setExpandedView(false); };
 
   if (images.length > 0) {
@@ -53,15 +74,16 @@ function ExpandedImage({
                 // onClick={!zoom ? getSizingRatio : () => { setZoom(false); }}
                 style={{
                   // background: 'red',
-                  // backgroundImage: !zoom ? 'none' : `url(${images[currIndex].url})`,
-                  // backgroundSize: `${containerSize.height * 2.5}px`,
-                  // backgroundPosition: `${offsetPercentage.x}% ${offsetPercentage.y}%`,
+                  backgroundImage: !zoom ? 'none' : `url(${images[currIndex].url})`,
+                  backgroundSize: `${containerSize.width}px ${containerSize.height}px`,
+                  backgroundPosition: `${offsetPercentage.x}% ${offsetPercentage.y}%`,
                   cursor: zoom ? 'zoom-out' : 'crosshair',
                 }}
                 // onMouseMove={moveBackgroundImg}
+                onClick={() => { if (zoom) { setZoom(false); } }}
               >
                 {/* in zoomed-in mode */}
-                {zoom && (
+                {/* {zoom && (
                   <ZoomedImage
                     src={
                       images[currIndex].url
@@ -70,7 +92,7 @@ function ExpandedImage({
                     }
                     alt="A representation of this product"
                   />
-                )}
+                )} */}
 
                 {/* in zoomed-out mode */}
                 {!zoom && index > 0 && (
@@ -79,7 +101,6 @@ function ExpandedImage({
                     onClick={() => { setCurrIndex(currIndex - 1); }}
                   />
                 )}
-                {console.log(images[currIndex].url)}
                 {!zoom && (
                   <Image
                     src={
@@ -89,7 +110,7 @@ function ExpandedImage({
                     }
                     alt="A representation of this product"
                     loading="lazy"
-                    onClick={() => { setZoom(true); }}
+                    onClick={handleZoomClick}
                   />
                 )}
                 {!zoom && (
@@ -152,9 +173,8 @@ const Wrapper = styled.div`
   margin: auto;
   width: 60vw;
   height: 60vw;
-  // background-repeat: no-repeat;
-  background: red;
-  // overflow: scroll;
+  background-repeat: no-repeat;
+  // background: red;
   justify-content: center;
   align-items: center;
 
@@ -217,8 +237,6 @@ const Image = styled.img`
   object-fit: contain;
   user-select: none;
   cursor: crosshair;
-  // justify-self: center;
-  // align-self: center;
 `;
 
 const ZoomedImage = styled.img`
