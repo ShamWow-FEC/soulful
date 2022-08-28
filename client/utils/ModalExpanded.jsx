@@ -88,12 +88,16 @@ const ChildrenWrapper = styled.div`
   }
 
   @media(max-width: 500px) {
-    margin-top: 40%;
+    margin-top: 0;
     width: 100%;
-    height: 50%;
+    height: 100vh;
   }
-
-  @media(min-width: 1200px) {
+  @media(min-width: 501px) and (max-width: 1200px) {
+    margin-top: 3vh;
+    width: 90vw;
+    height: 90vh;
+  }
+  @media(min-width: 1201px) {
     margin-top: 5vh;
     width: 90vh;
     height: 90vh;

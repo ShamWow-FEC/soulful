@@ -64,11 +64,10 @@ function ExpandedImage({
                 ref={container}
                 key={index}
                 style={{
-                  // background: 'red',
                   backgroundImage: !zoom ? 'none' : `url(${images[currIndex].url})`,
                   backgroundSize: `${zoomImgSize.width}px ${zoomImgSize.height}px`,
                   backgroundPosition: `${offsetPercentage.x}% ${offsetPercentage.y}%`,
-                  cursor: zoom ? 'zoom-out' : 'crosshair',
+                  cursor: zoom ? 'zoom-out' : 'default',
                 }}
                 onMouseMove={moveBackgroundImg}
                 onClick={() => { if (zoom) { setZoom(false); } }}
