@@ -1,15 +1,12 @@
 import React from 'react';
-import styled from 'styled-components';
 import PropTypes from 'prop-types';
+import Wrapper from './styles/features.styles';
 
 function Features({ product }) {
   if (Object.keys(product).length > 0) {
-    // copying the features list and description to create dummy data for increased text length
-    // const features = product.features.concat(product.features);
     return (
       <Wrapper>
         {product.features.map((feature, index) => (
-        // {features.map((feature, index) => (
           feature.value !== null
             ? (
               <li key={index}>
@@ -39,9 +36,3 @@ function Features({ product }) {
 }
 
 export default Features;
-
-const Wrapper = styled.ul`
-  list-style: none;
-  padding-left: 10%;
-  margin: 0;
-`;
