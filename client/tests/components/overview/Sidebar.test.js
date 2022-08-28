@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  render, screen, cleanup, fireEvent, act,
+  render, screen, cleanup, fireEvent,
 } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import Sidebar from '../../../src/components/overview/Sidebar.jsx';
@@ -9,6 +9,7 @@ import productInfo from './ProductInfoDataTest.js';
 
 const styles = product.results;
 const setSelectedStyle = jest.fn();
+const setStyleChangeButSameProduct = jest.fn();
 
 describe('rendering the Sidebar correctly for the currently selected product', () => {
   beforeEach(() => {
@@ -18,6 +19,7 @@ describe('rendering the Sidebar correctly for the currently selected product', (
         selectedStyle={styles[0]}
         styles={styles}
         setSelectedStyle={setSelectedStyle}
+        setStyleChangeButSameProduct={setStyleChangeButSameProduct}
       />,
     );
   });
@@ -45,6 +47,4 @@ describe('rendering the Sidebar correctly for the currently selected product', (
     );
     expect(setSelectedStyle).toHaveBeenCalledTimes(1);
   });
-
-  // still need to write tests for Checkout section
 });

@@ -8,7 +8,7 @@ function SloganDescription({ product }) {
       <div>
         <Slogan data-testid="slogan">{product.slogan}</Slogan>
         <br />
-        <p test-data-id="description">{product.description}</p>
+        <p data-testid="description">{product.description}</p>
       </div>
     );
   }
