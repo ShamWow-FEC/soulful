@@ -4,3 +4,4 @@ dist
 .eslintignore
 coverage
 package-lock.json
+.DS_Store
