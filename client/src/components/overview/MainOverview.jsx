@@ -168,10 +168,19 @@ function MainOverview({
 
 MainOverview.propTypes = {
   id: PropTypes.number,
+  avgRating: PropTypes.number,
+  totalRatings: PropTypes.number,
+  ratingsReviewsNode: PropTypes.oneOfType([
+    PropTypes.func,
+    PropTypes.shape({ current: PropTypes.instanceOf(Element) }),
+  ]),
 };
 
 MainOverview.defaultProps = {
   id: undefined,
+  avgRating: undefined,
+  totalRatings: undefined,
+  ratingsReviewsNode: null,
 };
 
 export default MainOverview;

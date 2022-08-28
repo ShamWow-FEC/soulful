@@ -14,10 +14,10 @@ describe('rendering Features for the currently selected product', () => {
   });
 
   const description = "Whether you're a morning person or not. Whether you're gym bound or not. Everyone looks good in joggers.";
-  const descriptionDuplicated = description.concat(' ', description, ' ', description);
+  // const descriptionDuplicated = description.concat(' ', description, ' ', description);
 
   it('displays a feature of the current product', () => {
     expect(screen.getByTestId('slogan')).toHaveTextContent('Make yourself a morning person');
-    expect(screen.getAllByTestId('description')[0]).toHaveTextContent(descriptionDuplicated);
+    expect(screen.getAllByTestId('description')[0]).toHaveTextContent(description);
   });
 });

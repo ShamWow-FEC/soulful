@@ -8,6 +8,7 @@ import product from './ProductDataTest.js';
 
 describe('rendering StyleSelector', () => {
   const setSelectedStyle = jest.fn();
+  const setStyleChangeButSameProduct = jest.fn();
 
   beforeEach(() => {
     const styles = product.results;
@@ -18,6 +19,7 @@ describe('rendering StyleSelector', () => {
         styles={styles}
         selectedStyle={selectedStyle}
         setSelectedStyle={setSelectedStyle}
+        setStyleChangeButSameProduct={setStyleChangeButSameProduct}
       />,
     );
   });

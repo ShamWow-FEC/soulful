@@ -6,6 +6,7 @@ function Features({ product }) {
   if (Object.keys(product).length > 0) {
     return (
       <Wrapper>
+        {/* {console.log(product)} */}
         {product.features.map((feature, index) => (
           feature.value !== null
             ? (
@@ -36,3 +37,16 @@ function Features({ product }) {
 }
 
 export default Features;
+
+Features.propTypes = {
+  product: PropTypes.shape({
+    features: PropTypes.arrayOf(PropTypes.shape({
+      feature: PropTypes.string,
+      value: PropTypes.string,
+    })),
+  }),
+};
+
+Features.defaultProps = {
+  product: PropTypes.object.isRequired,
+};

@@ -12,17 +12,16 @@ function ExpandedImage({
   const [currIndex, setCurrIndex] = useState(currImgIndex);
   const [zoom, setZoom] = useState(false);
   const [zoomImgSize, setZoomImgSize] = useState({ width: 0, height: 0 });
-  const [containerSize, setContainerSize] = useState({ width: 0, height: 0 });
   const [offsetPercentage, setOffsetPercentage] = useState({ x: 0, y: 0 });
   const container = useRef(null);
 
   const moveBackgroundImg = (e) => {
     if (zoom) {
       const offset = { x: e.nativeEvent.offsetX, y: e.nativeEvent.offsetY };
-      setContainerSize({
+      const containerSize = {
         width: container.current.clientWidth,
         height: container.current.clientHeight,
-      });
+      };
 
       setOffsetPercentage({
         x: (offset.x / containerSize.width) * 100,

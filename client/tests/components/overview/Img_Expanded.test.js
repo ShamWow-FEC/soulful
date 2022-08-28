@@ -8,14 +8,12 @@ import imagesSet from './ImagesDataTest.js';
 const images = imagesSet.photos;
 
 describe('rendering Expanded View', () => {
-  const setCurrImgIndex = jest.fn();
   const setExpandedView = jest.fn();
 
   beforeEach(() => {
     render(<ExpandedImage
       images={images}
       currImgIndex={2}
-      setCurrImgIndex={setCurrImgIndex}
       setExpandedView={setExpandedView}
     />);
   });
@@ -37,7 +35,6 @@ describe('rendering Expanded View', () => {
       }),
     );
 
-    expect(setCurrImgIndex).not.toHaveBeenCalled();
     expect(setExpandedView).not.toHaveBeenCalled();
   });
 
@@ -51,7 +48,6 @@ describe('rendering Expanded View', () => {
       }),
     );
 
-    expect(setCurrImgIndex).toHaveBeenCalledTimes(1);
     expect(setExpandedView).not.toHaveBeenCalled();
   });
 
@@ -63,7 +59,6 @@ describe('rendering Expanded View', () => {
       }),
     );
 
-    expect(setCurrImgIndex).toHaveBeenCalledTimes(1);
     expect(setExpandedView).toHaveBeenCalledTimes(1);
   });
 });
