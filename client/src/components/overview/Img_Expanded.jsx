@@ -154,7 +154,6 @@ const Wrapper = styled.div`
   width: 60vw;
   height: 60vw;
   background-repeat: no-repeat;
-  // background: red;
   justify-content: center;
   align-items: center;
 

@@ -74,8 +74,6 @@ function MainOverview({
 
   useEffect(() => {
     if (Object.keys(selectedStyle).length > 0) {
-      // dummy images data is duplicate of the same photos set
-      // setImages(selectedStyle.photos.concat(selectedStyle.photos));
       setImages(selectedStyle.photos);
       if (currImgIndex === null) {
         setCurrImgIndex(0);
@@ -135,12 +133,9 @@ function MainOverview({
         <ExpandedImage
           images={images}
           currImgIndex={currImgIndex}
-          setCurrImgIndex={setCurrImgIndex}
           setExpandedView={setExpandedView}
         />
       )}
-      {/* {!expandedView && (
-      <SubWrapper> */}
       <TopOverview className="top-overview overview-grid">
         <MainImage
           images={images}
