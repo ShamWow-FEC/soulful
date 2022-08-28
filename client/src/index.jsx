@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import { createGlobalStyle } from 'styled-components';
 // eslint-disable-next-line import/extensions
 import App from './components/App.jsx';
@@ -40,10 +40,10 @@ p, h1, h2, h3, h4, h5, h6 {
 }
 `;
 
-ReactDOM.render(
+const root = createRoot(document.getElementById('app'));
+root.render(
   <>
     <GlobalStyle />
     <App />
   </>,
-  document.getElementById('app'),
 );
