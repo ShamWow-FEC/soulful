@@ -108,7 +108,7 @@ export const QuantitySelector = styled.ul`
     cursor: pointer;
     background: #D6CCC2;
     text-align: start;
-    color: black;button
+    color: black;
   }
   & .options {
     &:hover {
