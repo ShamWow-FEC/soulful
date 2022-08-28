@@ -17,7 +17,10 @@ function ProductInfo({
             <StarRatings rating={avgRating} starDimension="18px" starSpacing="2px" starRatedColor="goldenrod" />
             &nbsp;
             &nbsp;
-            <SyntheticLink onClick={() => { ratingsReviewsNode.current.scrollIntoView(); }}>
+            <SyntheticLink onClick={() => {
+              ratingsReviewsNode.current.scrollIntoView();
+            }}
+            >
               Read all&nbsp;
               {totalRatings}
               &nbsp;reviews

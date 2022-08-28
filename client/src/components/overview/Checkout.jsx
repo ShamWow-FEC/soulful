@@ -117,10 +117,6 @@ function Checkout({ selectedStyle }) {
     setSelectedSku(null);
     setSelectingSize(false);
     setMaxQuantity(null);
-    // if (invalidSubmit) {
-    //   setInvalidSubmit(false);
-    // figure out when would be a good time for this message to disappear
-    // }
   };
 
   const expandSelectQuantity = () => {
