@@ -204,7 +204,7 @@ function Checkout({ selectedStyle }) {
               <button type="button" className="inactive">OUT OF STOCK</button>
             </li>
           )}
-          {!selectedSku && (
+          {(!selectedSku || (selectedSku && !maxQuantity)) && (
             <li>
               <button type="button" onClick={expandSelectQuantity}>-</button>
             </li>
