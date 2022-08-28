@@ -12,7 +12,6 @@ function ExpandedImage({
   const [currIndex, setCurrIndex] = useState(currImgIndex);
   const [zoom, setZoom] = useState(false);
   const [zoomImgSize, setZoomImgSize] = useState({ width: 0, height: 0 });
-  // const [containerSize, setContainerSize] = useState({ width: 0, height: 0 });
   const [offsetPercentage, setOffsetPercentage] = useState({ x: 0, y: 0 });
   const container = useRef(null);
 
