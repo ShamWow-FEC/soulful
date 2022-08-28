@@ -3,40 +3,53 @@ import PropTypes from 'prop-types';
 import { IoIosArrowDropright, IoIosArrowDropleft } from 'react-icons/io';
 import { BsCircleFill } from 'react-icons/bs';
 import { IoExitOutline } from 'react-icons/io5';
-import styled from 'styled-components';
 import ModalExpanded from '../../../utils/ModalExpanded.jsx';
-// const svg = require('./Images/minus.svg');
+import { Wrapper, NavSymbols, Image } from './styles/img_expanded.styles';
 
 function ExpandedImage({
-  images, currImgIndex, setCurrImgIndex, setExpandedView,
+  images, currImgIndex, setExpandedView,
 }) {
+  const [currIndex, setCurrIndex] = useState(currImgIndex);
   const [zoom, setZoom] = useState(false);
+  const [zoomImgSize, setZoomImgSize] = useState({ width: 0, height: 0 });
   const [containerSize, setContainerSize] = useState({ width: 0, height: 0 });
   const [offsetPercentage, setOffsetPercentage] = useState({ x: 0, y: 0 });
   const container = useRef(null);
 
-  const getSizingRatio = (e) => {
-    const offset = { x: e.nativeEvent.offsetX, y: e.nativeEvent.offsetY };
-    setContainerSize({
-      width: container.current.clientWidth,
-      height: container.current.clientHeight,
-    });
-
-    setOffsetPercentage({
-      x: (offset.x / containerSize.width) * 100,
-      y: (offset.y / containerSize.height) * 100,
-    });
-  };
-
   const moveBackgroundImg = (e) => {
     if (zoom) {
       const offset = { x: e.nativeEvent.offsetX, y: e.nativeEvent.offsetY };
+      setContainerSize({
+        width: container.current.clientWidth,
+        height: container.current.clientHeight,
+      });
+
       setOffsetPercentage({
         x: (offset.x / containerSize.width) * 100,
         y: (offset.y / containerSize.height) * 100,
       });
-      container.current.style.backgroundPosition = `-${offsetPercentage.x}% -${offsetPercentage.y}%`;
     }
+  };
+
+  const handleZoomClick = (e) => {
+    setZoom(true);
+    const imgEle = e.target;
+    const {
+      width: imgWidth, height: imgHeight, top: imgTop, left: imgLeft,
+    } = imgEle.getBoundingClientRect();
+
+    setZoomImgSize({
+      width: imgWidth * 2.5,
+      height: imgHeight * 2.5,
+    });
+
+    const offsetX = e.clientX - imgLeft;
+    const offsetY = e.clientY - imgTop;
+
+    setOffsetPercentage({
+      x: (offsetX / imgWidth) * 100,
+      y: (offsetY / imgHeight) * 100,
+    });
   };
 
   const exitExpandedView = () => { setExpandedView(false); };
@@ -45,37 +58,38 @@ function ExpandedImage({
     return (
       <ModalExpanded cb3={exitExpandedView} zoom={zoom}>
         {images.map((image, index) => {
-          if (index === currImgIndex) {
+          if (index === currIndex) {
             return (
               <Wrapper
                 ref={container}
                 key={index}
-                onClick={!zoom ? getSizingRatio : () => { setZoom(false); }}
                 style={{
-                  backgroundImage: !zoom ? 'none' : `url(${images[currImgIndex].url})`,
-                  backgroundSize: `${containerSize.height * 2.5}px`,
+                  backgroundImage: !zoom ? 'none' : `url(${images[currIndex].url})`,
+                  backgroundSize: `${zoomImgSize.width}px ${zoomImgSize.height}px`,
                   backgroundPosition: `${offsetPercentage.x}% ${offsetPercentage.y}%`,
-                  cursor: zoom ? 'zoom-out' : 'crosshair',
+                  cursor: zoom ? 'zoom-out' : 'default',
                 }}
                 onMouseMove={moveBackgroundImg}
+                onClick={() => { if (zoom) { setZoom(false); } }}
               >
+
+                {/* in zoomed-out mode */}
                 {!zoom && index > 0 && (
                   <IoIosArrowDropleft
                     className="icon-expanded left-arrow-expanded"
-                    onClick={() => { setCurrImgIndex(currImgIndex - 1); }}
+                    onClick={() => { setCurrIndex(currIndex - 1); }}
                   />
                 )}
                 {!zoom && (
                   <Image
-                    classname="main-img"
                     src={
-                      images[currImgIndex].url
-                        ? images[currImgIndex].url
+                      images[currIndex].url
+                        ? images[currIndex].url
                         : 'https://images.unsplash.com/photo-1594322436404-5a0526db4d13?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2329&q=80'
                     }
                     alt="A representation of this product"
                     loading="lazy"
-                    onClick={() => { setZoom(true); }}
+                    onClick={handleZoomClick}
                   />
                 )}
                 {!zoom && (
@@ -84,7 +98,7 @@ function ExpandedImage({
                 {!zoom && index < images.length - 1 && (
                   <IoIosArrowDropright
                     className="icon-expanded right-arrow-expanded"
-                    onClick={() => { setCurrImgIndex(currImgIndex + 1); }}
+                    onClick={() => { setCurrIndex(currIndex + 1); }}
                   />
                 )}
               </Wrapper>
@@ -95,8 +109,8 @@ function ExpandedImage({
         <NavSymbols>
           {images.map((image, index) => {
             const circleStyle = {
-              width: index === currImgIndex ? '11px' : '8px',
-              height: index === currImgIndex ? '11px' : '8px',
+              width: index === currIndex ? '11px' : '8px',
+              height: index === currIndex ? '11px' : '8px',
               visibility: zoom ? 'hidden' : 'visible',
             };
             return (
@@ -106,23 +120,11 @@ function ExpandedImage({
                 key={index}
                 style={circleStyle}
                 onClick={() => {
-                  if (index !== currImgIndex) {
-                    setCurrImgIndex(index);
+                  if (index !== currIndex) {
+                    setCurrIndex(index);
                   }
                 }}
               />
-              // <NavCircles
-              //   src="https://cdn-icons-png.flaticon.com/512/481/481078.png"
-              //   alt="circle"
-              //   data-testid="nav-symbols-circles"
-              //   key={index}
-              //   style={circleStyle}
-              //   onClick={() => {
-              //     if (index !== currImgIndex) {
-              //       setCurrImgIndex(index);
-              //     }
-              //   }}
-              // />
             );
           })}
         </NavSymbols>
@@ -138,81 +140,7 @@ ExpandedImage.propTypes = {
     url: PropTypes.string.isRequired,
   })).isRequired,
   currImgIndex: PropTypes.number.isRequired,
-  setCurrImgIndex: PropTypes.func.isRequired,
   setExpandedView: PropTypes.func.isRequired,
 };
 
 export default ExpandedImage;
-
-const Wrapper = styled.div`
-  position: relative;
-  isolation: isolate;
-  margin: auto;
-  width: 60vw;
-  height: 60vw;
-  background-repeat: no-repeat;
-  // overflow: hidden;
-
-  & .icon-expanded {
-    position: absolute;
-    z-index: 100;
-    color: black;
-    width: 30px;
-    height: 30px;
-    cursor: pointer;
-  };
-  & .exit-icon {
-    top: 5%;
-    right: 5%;
-    & :hover {
-      opacity: 0.4;
-    }
-  };
-  & .left-arrow-expanded {
-    top: 50%;
-    left: 5%;
-  };
-  & .right-arrow-expanded {
-    top: 50%;
-    right: 5%;
-  };
-  @media(max-width: 500px) {
-    width: 100%;
-  }
-  @media(min-width: 1200px) {
-    width: 90%;
-    height: 90%;
-  }
-`;
-
-const NavSymbols = styled.div`
-  display: grid;
-  margin-top: 2.5vh;
-  width: 100%;
-  height: max-content;
-  gap: 5px;
-  grid-auto-flow: column;
-  grid-template-rows: max-content;
-  grid-auto-columns: max-content;
-  justify-content: center;
-  align-content: end;
-  justify-items: center;
-  align-items: center;
-  user-select: none;
-  & .nav-symbols-circles {
-    fill: #D5BDAF;
-    cursor: pointer;
-  };
-`;
-
-// const NavCircles = styled.img`
-// `;
-
-const Image = styled.img`
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  user-select: none;
-  cursor: crosshair;
-`;

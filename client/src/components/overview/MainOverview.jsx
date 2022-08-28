@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
-import styled from 'styled-components';
 import ExpandedImage from './Img_Expanded.jsx';
 import SloganDescription from './SloganDescription.jsx';
 import Features from './Features.jsx';
 import Sidebar from './Sidebar.jsx';
 import MainImage from './Img_Default_Gallery.jsx';
+import { Wrapper, TopOverview, BottomOverview } from './styles/mainoverview.styles';
 
 function MainOverview({
   id, avgRating, totalRatings, ratingsReviewsNode,
@@ -74,8 +74,6 @@ function MainOverview({
 
   useEffect(() => {
     if (Object.keys(selectedStyle).length > 0) {
-      // dummy images data is duplicate of the same photos set
-      // setImages(selectedStyle.photos.concat(selectedStyle.photos));
       setImages(selectedStyle.photos);
       if (currImgIndex === null) {
         setCurrImgIndex(0);
@@ -135,12 +133,9 @@ function MainOverview({
         <ExpandedImage
           images={images}
           currImgIndex={currImgIndex}
-          setCurrImgIndex={setCurrImgIndex}
           setExpandedView={setExpandedView}
         />
       )}
-      {/* {!expandedView && (
-      <SubWrapper> */}
       <TopOverview className="top-overview overview-grid">
         <MainImage
           images={images}
@@ -180,51 +175,3 @@ MainOverview.defaultProps = {
 };
 
 export default MainOverview;
-
-const Wrapper = styled.div`
-  width: 100%;
-  & .overview-grid {
-    display: grid;
-    width: 100%:
-    height: max-content;
-    grid-template-columns: 6fr 4fr;
-    grid-template-rows: max-content;
-    align-content: center;
-    align-items: center;
-    margin-right: 0;
-    column-gap: 3vw;
-    @media(max-width: 900px) {
-      width: 100%
-      justify-content: center;
-      grid-template-rows: repeat(2, max-content);
-      grid-template-columns: 100%;
-      row-gap: 3vh;
-    };
-    @media(min-width: 1200px) {
-      justify-content: center;
-      grid-template-columns: 7fr 3fr;
-      grid-template-rows: max-content;
-      row-gap: 3vh;
-    }
-  }
-`;
-
-const TopOverview = styled.div`
-  @media(max-width: 900px) {
-    background: transparent;
-  }
-  @media(min-width: 901px) {
-    padding: 5%;
-    background: #F5EBE0;
-  }
-`;
-
-const BottomOverview = styled.div`
-  padding-left: 5%;
-  padding-right: 5%;
-  margin-top: 4vh;
-  @media(max-width: 900px) {
-    margin-top: 6vh;
-    row-gap: 10vh;
-  }
-`;
