@@ -16,3 +16,10 @@ function SloganDescription({ product }) {
 }
 
 export default SloganDescription;
+
+SloganDescription.propTypes = {
+  product: PropTypes.shape({
+    slogan: PropTypes.string,
+    description: PropTypes.string,
+  }).isRequired,
+};

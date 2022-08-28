@@ -81,11 +81,20 @@ ProductInfo.propTypes = {
       size: PropTypes.string,
     })),
   }),
+  avgRating: PropTypes.number,
+  totalRatings: PropTypes.number,
+  ratingsReviewsNode: PropTypes.oneOfType([
+    PropTypes.func,
+    PropTypes.shape({ current: PropTypes.instanceOf(Element) }),
+  ]),
 };
 
 ProductInfo.defaultProps = {
   product: PropTypes.object.isRequired,
   selectedStyle: PropTypes.object.isRequired,
+  avgRating: undefined,
+  totalRatings: undefined,
+  ratingsReviewsNode: null,
 };
 
 export default ProductInfo;

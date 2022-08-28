@@ -67,6 +67,7 @@ StyleSelector.propTypes = {
     })),
   }),
   setSelectedStyle: PropTypes.func.isRequired,
+  setStyleChangeButSameProduct: PropTypes.func.isRequired,
 };
 
 StyleSelector.defaultProps = {
